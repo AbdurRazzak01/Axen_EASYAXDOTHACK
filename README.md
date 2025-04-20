@@ -1,13 +1,13 @@
 
 
 
-# 🧠 Axen Strategy Mirror Pallet
+# 🧠 Axen Bot
 
 ## 📖 Overview
 
-The **Axen Strategy Mirror Pallet** is a custom-built Substrate module designed to track top-performing traders across parachains, analyze their strategies, and automatically mirror profitable actions into the Axen Vault smart contract deployed on **Asset Hub**.
+The **Axen Strategy Bot** is a custom-built telegram bot designed to track top-performing traders across parachains, analyze their strategies, and automatically mirror profitable actions into the Axen Vault smart contract deployed on **Asset Hub**.
 
-This system **democratizes DeFi alpha** by making elite trading strategies available to everyday users, while maintaining decentralization, security, and **cross-chain compatibility via XCM**.
+This system **democratizes DeFi alpha** by making elite trading strategies available to everyday users, while maintaining decentralization, security and **cross-chain compatibility via XCM** and a super flexible parachain.
 
 > Built specifically to leverage the capabilities of the **Polkadot Asset Hub** for scalable smart contracts and XCM messaging.
 
