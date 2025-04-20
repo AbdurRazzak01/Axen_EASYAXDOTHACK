@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets" alt="Axen Logo" width="250"/>
+  <img src="assets/assets" alt="Axen Logo" width="250"/>
 </p>
 
 
