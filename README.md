@@ -25,6 +25,8 @@ This system **democratizes DeFi alpha** by making elite trading strategies avail
 | ✅ **Fully Decentralized** | Strategy logic stored on-chain, transparent and upgradeable |
 
 ---
+## Technical Demo
+**YouTube: https://youtu.be/lqYk0UwD8mw**
 
 ## 🛠️ Architecture Overview
 
@@ -40,14 +42,12 @@ This system **democratizes DeFi alpha** by making elite trading strategies avail
 
 ## 🔄 Strategy Mirroring Flow
 
-```mermaid
-flowchart TD
+
     A[Track Top Traders on Chains] --> B[Analyze Yield / Deposit / Withdraw Trends]
     B --> C[Identify Winning Strategies]
     C --> D[Update AxenVault Contract (Asset Hub)]
     D --> E[Mirror Deposits/Withdrawals Automatically]
     E --> F[Notify Users via Telegram Bot]
-```
 
 ---
 
@@ -129,13 +129,3 @@ See [LICENSE](LICENSE) for details.
 - Strategies are mirrored only from verified, whitelisted assets and vaults.
 
 ---
-
-# 📸 Visual System Diagram (Optional)
-
-```mermaid
-flowchart TD
-    U[Users] -->|Deposit| V[Axen Vault (Asset Hub)]
-    V -->|Mirror Actions| P[Axen Strategy Pallet (Substrate)]
-    P -->|Cross-chain Tracking| C[Other Chains (Moonbeam, Astar, Acala)]
-    P -->|Notifications| T[Telegram Bot + WebApp UX]
-```
