@@ -42,3 +42,6 @@ target/
 *.scale
 justfile
 rustc-ice-*
+
+# Local Netlify folder
+.netlify

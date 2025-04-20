@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Withdraw ETH</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #e6f0fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #a40000;
+        }
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #8B0000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            margin-top: 10px;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Withdraw ETH</h1>
+
+        <!-- Connect Wallet -->
+        <button id="connectButton">Connect Wallet</button>
+
+        <!-- Amount input -->
+        <input type="number" id="amount" placeholder="Enter amount in ETH" disabled>
+
+        <!-- Withdraw button -->
+        <button id="withdrawButton" disabled>Withdraw</button>
+
+        <!-- Loader spinner -->
+        <div class="loader" id="loader"></div>
+
+        <!-- Status message -->
+        <div class="status" id="status"></div>
+
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let provider;
+            let signer;
+            let contract;
+
+            // 🔥 Your deployed contract address
+            const contractAddress = '0xd9145CCE52D386f254917e481eB44e9943F39138'; // <<< Replace with your deployed address
+
+            // 🔥 Minimal ABI (only withdraw function)
+            const abi = [
+                "function withdraw(uint256 amount) external"
+            ];
+
+            const connectButton = document.getElementById('connectButton');
+            const withdrawButton = document.getElementById('withdrawButton');
+            const amountInput = document.getElementById('amount');
+            const statusDiv = document.getElementById('status');
+            const loader = document.getElementById('loader');
+
+            async function connectWallet() {
+                if (window.ethereum) {
+                    provider = new ethers.providers.Web3Provider(window.ethereum, "any");
+                    await provider.send("eth_requestAccounts", []);
+                    signer = provider.getSigner();
+                    contract = new ethers.Contract(contractAddress, abi, signer);
+
+                    const address = await signer.getAddress();
+                    console.log('Connected:', address);
+
+                    statusDiv.innerText = "Connected: " + address.slice(0,6) + "..." + address.slice(-4);
+                    withdrawButton.disabled = false;
+                    amountInput.disabled = false;
+                } else {
+                    alert('Please install MetaMask!');
+                }
+            }
+
+            async function withdraw() {
+                if (!signer || !contract) {
+                    alert('Please connect your wallet first.');
+                    return;
+                }
+
+                const amountInEth = amountInput.value;
+                if (!amountInEth || isNaN(amountInEth) || Number(amountInEth) <= 0) {
+                    alert('Please enter a valid amount.');
+                    return;
+                }
+
+                const amountInWei = ethers.utils.parseEther(amountInEth);
+
+                loader.style.display = 'block';
+                statusDiv.innerText = "Sending withdraw transaction...";
+
+                try {
+                    const tx = await contract.withdraw(amountInWei);
+                    console.log('Withdraw Transaction:', tx);
+
+                    statusDiv.innerHTML = `✅ Withdraw sent!<br>Tx: <a href="https://sepolia.etherscan.io/tx/${tx.hash}" target="_blank">${tx.hash.slice(0,10)}...</a>`;
+                } catch (error) {
+                    console.error(error);
+                    statusDiv.innerText = "❌ Withdraw failed: " + error.message;
+                } finally {
+                    loader.style.display = 'none';
+                }
+            }
+
+            connectButton.addEventListener('click', connectWallet);
+            withdrawButton.addEventListener('click', withdraw);
+        });
+    </script>
+</body>
+</html>
