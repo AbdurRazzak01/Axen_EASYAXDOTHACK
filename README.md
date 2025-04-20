@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/assets" alt="Axen Logo" width="250"/>
-</p>
+
 
 
 # 🧠 Axen Strategy Mirror Pallet
