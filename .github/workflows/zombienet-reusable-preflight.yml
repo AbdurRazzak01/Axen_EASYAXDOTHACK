@@ -138,7 +138,7 @@ jobs:
       FLAKY_TESTS: ${{ steps.set_vars.outputs.FLAKY_TESTS }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       #
       # Set changes
@@ -238,7 +238,7 @@ jobs:
       POLKADOT_PR_ARTIFACTS_URL: ${{ steps.get_artifacts_url.outputs.POLKADOT_PR_ARTIFACTS_URL }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Wait until "Build and push images" workflow is done
         id: wait_build
         env:
